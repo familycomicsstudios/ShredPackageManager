@@ -1,3 +1,5 @@
 {
-    "utilities_themadpunter": {"repository_reqget":"https://familycomicsstudios.github.io/ScratchExtensionsFCS/Code/utils.js"}
+    "utilities_themadpunter": {"repository_reqget":"https://familycomicsstudios.github.io/ScratchExtensionsFCS/Code/utils.js"},
+    "cloudlink": {"repository_reqget":"https://mikedev101.github.io/cloudlink/B3-0.js"},
+    "arpruss_gamepad": {"repository_reqget":"https://arpruss.github.io/gamepad.js"}
 }
