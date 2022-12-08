@@ -1,0 +1,1 @@
+cp shpm.py venv/bin
