@@ -1,1 +1,1 @@
-cp shpm.py venv/bin
+cp -r shpm/src/shpm venv/lib/python3.8/site-packages
