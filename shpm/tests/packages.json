@@ -1,0 +1,75 @@
+{
+	"utilities_themadpunter": {
+		"repository_reqget": "https://familycomicsstudios.github.io/ScratchExtensionsFCS/Code/utils.js",
+		"name": "Utilities (Themadpunter)",
+		"description": "A set of basic utilites for Scratch.",
+		"author_name": "Themadpunter",
+		"author_contact": "Themadpunter#0439",
+		"version": "1.0.0",
+		"sandboxed": "true"
+	},
+	"notwait": {
+		"repository_reqget": "https://notwait.github.io/notwait-blocks/extension/notwait-blocks.js",
+		"name": "Notwait Blocks",
+		"description": "Notwait Blocks",
+		"author_name": "notwait",
+		"author_contact": "notwait",
+		"version": "1.0.0",
+		"sandboxed": "true"
+	},
+	"sheeputils": {
+		"repository_reqget": "https://sheeptester.github.io/javascripts/utilities.js",
+		"name": "Sheeptester Utilites",
+		"description": "A set of basic utilites for Scratch.",
+		"author_name": "sheeptester",
+		"author_contact": "sheeptester",
+		"version": "1.0.0",
+		"sandboxed": "true"
+	},
+	"sheepfetch": {
+		"repository_reqget": "https://sheeptester.github.io/javascripts/utilities.js",
+		"name": "Sheeptester Fetch",
+		"description": "Fetching extension for Scratch",
+		"author_name": "sheeptester",
+		"author_contact": "sheeptester",
+		"version": "1.0.0",
+		"sandboxed": "true"
+	},
+	"javascript": {
+		"repository_reqget": "https://turbowarp.tigitaal.nl/eval.js",
+		"name": "Javascript",
+		"description": "ScratchJS",
+		"author_name": "tigitaal",
+		"author_contact": "tigitaal",
+		"version": "1.0.0",
+		"sandboxed": "true"
+	},
+	"scratchmath": {
+		"repository_reqget": "https://familycomicsstudios.github.io/ScratchExtensionsFCS/Code/scratchmath.js",
+		"name": "Scratch Math",
+		"description": "Scratch Math",
+		"author_name": "Themadpunter",
+		"author_contact": "Themadpunter#0439",
+		"version": "1.0.0",
+		"sandboxed": "true"
+	},
+	"minecraft": {
+		"repository_reqget": "https://pruss.mobi/js/rjm.js",
+		"name": "Minecraft",
+		"description": "Tools to interact with Minecraft",
+		"author_name": "Barthdry",
+		"author_contact": "Barthdry",
+		"version": "1.0.0",
+		"sandboxed": "true"
+	},
+	"rixxyx": {
+		"repository_reqget": "https://rixxyx.rixthetyrunt.repl.co/beta.js",
+		"name": "RixxyX",
+		"description": "Tools for Scratch",
+		"author_name": "rixthetyrunt",
+		"author_contact": "rixthetyrunt",
+		"version": "1.0.0",
+		"sandboxed": "true"
+	}
+
+}
