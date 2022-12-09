@@ -7,12 +7,14 @@ import requests
 import json
 import flask
 from flask import redirect, request
+from configparser import ConfigParser
 
 #Argument Parsing
 
 parser = argparse.ArgumentParser(prog = 'shpm', description='Scratch extension package manager', epilog='This version of shpm has Super Sus Powers.')
 parser.add_argument("cmd", help="The command you use", nargs='?', default = '')
 parser.add_argument("extra", help="Extra parameter", nargs="?",default='')
+parser.add_argument("selection", help="Another extra parameter", nargs="?",default='')
 group = parser.add_mutually_exclusive_group()
 group.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true", default=True)
 group.add_argument("-q", "--quiet", help="Do run quietly", action="store_true")
@@ -41,6 +43,18 @@ version = '0.3.0'
 verbose = args.verbose and not args.quiet
 dry = args.dry
 
+#INI
+config = ConfigParser()
+try:
+    config.read('config.ini')
+    config.get('settings_start', 'turbowarp_instance')
+except:
+    open('config.ini',"w").write("""
+[settings_start]
+turbowarp_instance = https://turbowarp.org
+    """)
+    config.read('config.ini')
+
 #Flask
 
 app = flask.Flask(__name__,
@@ -49,8 +63,8 @@ app = flask.Flask(__name__,
 
 @app.route('/')
 def main():
-    global onlyfiles
-    url = 'https://turbowarp.org'
+    global onlyfiles, config
+    url = config.get('settings_start', 'turbowarp_instance')
     if len(onlyfiles) > 0:
         url += '?extension=https://'+request.host+'/modules/'+onlyfiles[0]
         fileno = 1
@@ -59,6 +73,21 @@ def main():
             fileno += 1
             
     return redirect(url)
+
+@app.route('/build')
+def build():
+    build_json = """{"interpolation":false,"maxClones":300,"loadingScreen":{"text":"Loading...","progressBar":true,"imageMode":"normal","image":null},"controls":{"greenFlag":{"enabled":true},"stopAll":{"enabled":true},"fullscreen":{"enabled":true},"pause":{"enabled":false}},"app":{"windowTitle":"Test","icon":null,"packageName":"project","windowMode":"window","version":"1.0.0"},"cloudVariables":{"mode":"local","cloudHost":"wss://clouddata.turbowarp.org","custom":{},"specialCloudBehaviors":false,"unsafeCloudBehaviors":false},"turbo":false,"framerate":30,"highQualityPen":false,"fencing":true,"miscLimits":true,"stageWidth":480,"stageHeight":360,"resizeMode":"preserve-ratio","autoplay":false,"username":"player####","closeWhenStopped":false,"projectId":"p4-@Project.sb3","custom":{"css":"","js":""},"appearance":{"background":"#000000","foreground":"#ffffff","accent":"#ff4c4c"},"monitors":{"editableLists":false,"variableColor":"#ff8c1a","listColor":"#fc662c"},"compiler":{"enabled":true,"warpTimer":false},"packagedRuntime":true,"target":"html","chunks":{"gamepad":false,"pointerlock":false},"cursor":{"type":"auto","custom":null,"center":{"x":0,"y":0}},"extensions":["""
+    extno = 1
+    for extension in onlyfiles:
+        if extno > 1:
+            build_json += ',{"url":"'
+        else:
+            build_json += '{"url":"'
+        build_json += 'https://'+request.host+'/modules/'+extension
+        build_json += '"}'
+        extno += 1
+    build_json += '],"bakeExtensions":true}'
+    return build_json
 
 from flask import send_from_directory
 
@@ -190,7 +219,16 @@ def list():
         print(item)
     if verbose:
         print("INFO || Done!")
-        
+
+def configs(setting, value):
+    if setting == "turbowarp_instance":
+        config.set('settings_start', 'turbowarp_instance', value)
+        if verbose:
+            print("INFO || Setting value...")
+    else:
+        print("ERROR || No such setting", file=sys.stderr)
+
+
 # Main
 
 if args.cmd == "init":
@@ -211,6 +249,8 @@ elif args.cmd == "uninstall" or args.cmd == "remove" or args.cmd == "ui":
     remove_package(args.extra)
 elif args.cmd == "list" or args.cmd == "l":
     list()
+elif args.cmd == "config":
+    configs(args.extra, args.selection)
 elif args.amogus:
     amogus()
 else:
