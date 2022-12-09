@@ -2,7 +2,7 @@
 
 #Imports
 import argparse
-import os
+import os, sys
 import requests
 import json
 import flask
@@ -12,8 +12,8 @@ from flask import redirect, request
 
 parser = argparse.ArgumentParser(prog = 'shpm')
 parser.add_argument("cmd", help="The command you use")
-parser.add_argument("extra", help="Extra parameter", nargs="?",default=None)
-parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
+parser.add_argument("extra", help="Extra parameter", nargs="?",default='')
+parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true", default=True)
 args = parser.parse_args()
 
 #PWD stuff
@@ -21,8 +21,10 @@ args = parser.parse_args()
 from os import listdir
 from os.path import isfile, join
 mypath = os.getcwd()+"/.scratch-modules"
-onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
-
+try:
+    onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+except:
+    pass
 workdir = os.getcwd()
 
 #Flagset
@@ -64,7 +66,7 @@ def init():
 
 def update_repo():
     global verbose
-    url = 'https://raw.githubusercontent.com/familycomicsstudios/ShredPackageManager/main/packages.json'
+    url = 'https://familycomicsstudios.github.io/ShredRepository/packages.json'
     if verbose:
         print("INFO || Getting repositories list.")
     r = requests.get(url, allow_redirects=True)
@@ -76,8 +78,12 @@ def get_package(package):
     global verbose
     if verbose:
         print("INFO || Searching repositories list.")
-    with open('packages.json', 'r') as fcc_file:
-        url = json.load(fcc_file)[package]['repository_reqget']
+    try:
+        with open('packages.json', 'r') as fcc_file:
+            url = json.load(fcc_file)[package]['repository_reqget']
+    except:
+        print("ERROR || Nonexistent package. Exiting.", file=sys.stderr)
+        return
     if verbose:
         print("INFO || Getting package.")
     r = requests.get(url, allow_redirects=True)
@@ -87,6 +93,16 @@ def get_package(package):
     open(package+'.js', 'wb').write(r.content)
     if verbose:
         print("INFO || Finished!")
+
+def package_list(search):
+    global verbose
+    if verbose:
+        print("INFO || Searching repositories list.")
+    with open('packages.json', 'r') as fcc_file:
+        for key in json.load(fcc_file).keys():
+            if search in key:
+                print(key)
+    
 
 def start_server():
     if verbose:
@@ -103,3 +119,5 @@ if args.cmd == "install":
     get_package(args.extra)
 if args.cmd == "start":
     start_server()
+if args.cmd == "search":
+    package_list(args.extra)
