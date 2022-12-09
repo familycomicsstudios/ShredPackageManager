@@ -1,11 +1,11 @@
 Metadata-Version: 2.1
 Name: shpm-themadpunter
-Version: 0.3.0
+Version: 0.4.0
 Summary: A package manager for MIT Scratch
 Author: Themadpunter
 Author-email: TheMadPunter <themadpunter10@gmail.com>
-Project-URL: Homepage, https://github.com/pypa/sampleproject
-Project-URL: Bug Tracker, https://github.com/pypa/sampleproject/issues
+Project-URL: Homepage, https://github.com/familycomicsstudios/ShredPackageManager
+Project-URL: Bug Tracker, https://github.com/familycomicsstudios/ShredPackageManager/issues
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
