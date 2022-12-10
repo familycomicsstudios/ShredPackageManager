@@ -29,7 +29,7 @@ args = parser.parse_args()
 
 #Metadata
 
-version = '0.5.0'
+version = '0.6.0'
 
 #Flagset
 
@@ -43,6 +43,8 @@ def write_config():
         f.write("""
 [settings_start]
 turbowarp_instance = https://turbowarp.org
+sheeptester_instance = https://sheeptester.github.io/scratch-gui/
+mode = turbowarp
 
 [settings_workdir]
 workdir = .scratch-modules
@@ -79,15 +81,27 @@ app = flask.Flask(__name__,
 @app.route('/')
 def main():
     global onlyfiles, config
-    url = config.get('settings_start', 'turbowarp_instance')
-    if len(onlyfiles) > 0:
-        url += '?extension=https://'+request.host+'/modules/'+onlyfiles[0]
-        fileno = 1
-        for file in onlyfiles[1:]:
-            url += '&extension=https://'+request.host+'/modules/'+onlyfiles[fileno]
-            fileno += 1
-            
-    return redirect(url)
+    if config.get('settings_start', 'mode') == "turbowarp":
+        url = config.get('settings_start', 'turbowarp_instance')
+        if len(onlyfiles) > 0:
+            url += '?extension=https://'+request.host+'/modules/'+onlyfiles[0]
+            fileno = 1
+            for file in onlyfiles[1:]:
+                url += '&extension=https://'+request.host+'/modules/'+onlyfiles[fileno]
+                fileno += 1
+                
+        return redirect(url)
+    elif config.get('settings_start','mode') == "sheeptester":
+        url = config.get('settings_start','sheeptester_instance')
+        if len(onlyfiles) > 0:
+            url += '?load_plugin=https://'+request.host+'/modules/'+onlyfiles[0]
+            fileno = 1
+            for file in onlyfiles[1:]:
+                url += '&load_plugin=https://'+request.host+'/modules/'+onlyfiles[fileno]
+                fileno += 1
+        return redirect(url)
+    else:
+        print("ERROR || Invalid mode")
 
 @app.route('/build')
 def build():
