@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 name = "shpm_themadpunter"
 version = "0.5.0"
 authors = [
-  { name="TheMadPunter", email="discord: Themadpunter#0439" },
+  { name="TheMadPunter", email="themadpunter10@gmail.com" },
 ]
 description = "A package manager for MIT Scratch"
 readme = "README.md"
