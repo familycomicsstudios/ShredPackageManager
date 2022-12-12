@@ -6,7 +6,7 @@ import os, sys
 import requests
 import json
 import flask
-from flask import redirect, request
+from flask import redirect, request, send_file
 from configparser import ConfigParser
 import re, shutil
 
@@ -29,7 +29,7 @@ args = parser.parse_args()
 
 #Metadata
 
-version = '0.6.0'
+version = '1.0.0'
 
 #Flagset
 
@@ -48,6 +48,7 @@ mode = turbowarp
 
 [settings_workdir]
 workdir = .scratch-modules
+workfile = Project.sb3
 
 [settings_install]
 repository = https://familycomicsstudios.github.io/ShredRepository/packages.json
@@ -82,15 +83,17 @@ app = flask.Flask(__name__,
 def main():
     global onlyfiles, config
     if config.get('settings_start', 'mode') == "turbowarp":
-        url = config.get('settings_start', 'turbowarp_instance')
-        if len(onlyfiles) > 0:
-            url += '?extension=https://'+request.host+'/modules/'+onlyfiles[0]
-            fileno = 1
-            for file in onlyfiles[1:]:
-                url += '&extension=https://'+request.host+'/modules/'+onlyfiles[fileno]
-                fileno += 1
-                
-        return redirect(url)
+        try:
+            url = config.get('settings_start', 'turbowarp_instance')
+            if len(onlyfiles) > 0:
+                url += '?extension=https://'+request.host+'/modules/'+onlyfiles[0]
+                fileno = 1
+                for file in onlyfiles[1:]:
+                    url += '&extension=https://'+request.host+'/modules/'+onlyfiles[fileno]
+                    fileno += 1
+                return redirect(url)
+        except:
+            pass
     elif config.get('settings_start','mode') == "sheeptester":
         url = config.get('settings_start','sheeptester_instance')
         if len(onlyfiles) > 0:
@@ -102,6 +105,8 @@ def main():
         return redirect(url)
     else:
         print("ERROR || Invalid mode")
+            
+    
 
 @app.route('/build')
 def build():
@@ -121,6 +126,14 @@ def build():
 @app.route('/modules/<path>')
 def send_report(path):
     return open(config.get('settings_workdir', 'workdir')+'/'+path, 'r').read()
+
+@app.route('/sb3')
+def sb3():
+    global workdir
+    try:
+        return send_file(workdir+'/'+config.get('settings_workdir', 'workfile'), attachment_filename='Project.sb3')
+    except:
+        return "ERROR || File not found"
 
 
 @app.route('/rickroll')
