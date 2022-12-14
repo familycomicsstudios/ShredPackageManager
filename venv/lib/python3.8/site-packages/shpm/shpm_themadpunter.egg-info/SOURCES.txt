@@ -1,8 +1,0 @@
-LICENSE
-README.md
-pyproject.toml
-setup.py
-shpm_themadpunter.egg-info/PKG-INFO
-shpm_themadpunter.egg-info/SOURCES.txt
-shpm_themadpunter.egg-info/dependency_links.txt
-shpm_themadpunter.egg-info/top_level.txt
