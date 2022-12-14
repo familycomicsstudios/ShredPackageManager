@@ -12,7 +12,7 @@ import re, shutil
 
 #Argument Parsing
 
-parser = argparse.ArgumentParser(prog = 'shpm', description='Scratch extension package manager', epilog='This version of shpm has Super Sus Powers.')
+parser = argparse.ArgumentParser(prog = 'shpm', description='Scratch extension package manager', epilog='This version of shpm has super cool Powers.')
 parser.add_argument("cmd", help="The command you use", nargs='?', default = '')
 parser.add_argument("extra", help="Extra parameter", nargs="?",default='')
 parser.add_argument("selection", help="Another extra parameter", nargs="?",default='')
@@ -20,7 +20,6 @@ group = parser.add_mutually_exclusive_group()
 group.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true", default=True)
 group.add_argument("-q", "--quiet", help="Do run quietly", action="store_true")
 parser.add_argument("-d", "--dry", help="Do a dry run", action="store_true")
-parser.add_argument("-A", "--amogus", help="Hmmmmmmm", action="store_true")
 parser.add_argument("-l", "--local", help="Install package from local file", action="store_true")
 parser.add_argument("-r", "--remote", help="Install package from remote file")
 
@@ -134,11 +133,6 @@ def sb3():
         return send_file(workdir+'/'+config.get('settings_workdir', 'workfile'), attachment_filename='Project.sb3')
     except:
         return "ERROR || File not found"
-
-
-@app.route('/rickroll')
-def rickroll():
-    return redirect("https://www.youtube.com/watch?v=dQw4w9WgXcQ", code=302)
     
 #Functions
 
@@ -229,34 +223,6 @@ def get_package_info(package):
     if verbose:
         print("INFO || Done!")
 
-def amogus():
-    print("""                                                  
-                                                  
-                                                  
-                                                  
-                  (@@@@@@@@@@@@@@@(               
-                *@@@%%%%%%%%%%%%%@@@@*            
-               *@@&%%%%%%&@@@@@@@@@@@@@.          
-               @@@%%%%&@@@/,,,,. ...,(@@&         
-            ,%@@@&%%%%&@@#/,,,,..    .,/@@,       
-        (@@@@&@@@&%%%%&@&####*,,,,,,/###@@#       
-        &@@%%%&@@&&%%%%@@@############&@@@        
-        &@@&&&@@@&&%%%%%%@@@@@@@@@@@@@@@%         
-        @@@&&&@@@&&&%%%%%%%%%%%%%%%%%%@@@         
-        @@&&&&@@@&&&%%%%%%%%%%%%%%%%%%@@@         
-       .@@&&&&@@@&&&&%%%%%%%%%%%%%%%%&@@@.        
-        @@&&&&@@@&&&&&&%%%%%%%%%%%%&&&@@&         
-        #@@&&&&@@&&&&&&&&&&&&&&&&&&&&&@@(         
-         #@@@@@@@&&&&&&&&@@@@@@@@@&&&@@@          
-              *@@&&&&&&&@@@.*@@&&&&&&@@%          
-               @@@&&&&&&@@@, @@&&&&&&@@*          
-               @@@&&&&&@@@(  .@@@@@@@&            
-                 &@@@@@@(                         
-                                                  
-                sus amognus                                  
-                                                  
-    """)
-
 def remove_package(package):
     global verbose, dry
     if verbose:
@@ -328,15 +294,6 @@ def pack():
         os.chdir("..")
         os.system("tar -czf build")
 
-def moo():
-    print("I am sorry, but this program does not have Super Cow Powers. Please use the command line programs \"apt\" or \"aptitude\".")
-    if input("Did you mean: apt-get moo? (yes/no) ") == "yes":
-        os.system("apt-get moo")
-    else:
-        print("Okay. Bye.")
-            
-# Main
-
 if args.cmd == "init":
     init()
 elif args.cmd == "update":
@@ -357,10 +314,6 @@ elif args.cmd == "list" or args.cmd == "l":
     list()
 elif args.cmd == "config":
     configs(args.extra, args.selection)
-elif args.cmd == "moo":
-    moo()
-elif args.amogus:
-    amogus()
 elif args.cmd == "clean":
     clean()
 else:
